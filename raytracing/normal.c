@@ -3,6 +3,28 @@
 #include "../include/raytracing.h"
 #include "../include/matrix.h"
 
+
+t_tuple calculate_transformed_normal(t_ray *ray, t_sphere *sphere, double t, Matrice4x4 transformation_matrix) {
+    // Calcul du point d'intersection en espace monde
+    t_tuple intersection_point_world = add_tuples(ray->origin, multiply_tuple(ray->direction, t));
+
+    // Conversion du point d'intersection vers l'espace objet
+    Matrice4x4 inverse_transformation = inverse_matrix(transformation_matrix);
+    t_tuple intersection_point_object = multiplyMatrixByTuple(inverse_transformation, intersection_point_world);
+
+    // Calcul de la normale en espace objet
+    t_tuple normal_object_space = subtract_tuples(intersection_point_object, sphere->center);
+    t_tuple normalized_normal_object_space = normalize_tuple(normal_object_space);
+
+    // Conversion de la normale retour à l'espace monde
+    Matrice4x4 transpose_of_inverse = transposeMatrix(inverse_transformation);
+    t_tuple normal_world_space = multiplyMatrixByTuple(transpose_of_inverse, normalized_normal_object_space);
+    normal_world_space.w = 0.0; // Assurer que c'est traité comme un vecteur
+    t_tuple normalized_normal_world_space = normalize_tuple(normal_world_space);
+    return normalized_normal_world_space;
+}
+
+
 t_tuple calculate_normal_at_point(t_sphere *sphere, t_ray *ray, double t) {
     // Calcul du point d'intersection
     t_tuple point = add_tuples(ray->origin, multiply_tuple(ray->direction, t));

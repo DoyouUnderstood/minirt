@@ -8,6 +8,9 @@ typedef struct
     float m[4][4];
 } Matrice4x4;
 
+
+Matrice4x4 transposeMatrix(Matrice4x4 mat);
+Matrice4x4 inverse_matrix(Matrice4x4 mat);
 Matrice4x4 shearing_matrix(double xy, double xz, double yx, double yz, double zx, double zy);
 Matrice4x4 rotation_z(double angle);
 Matrice4x4 scaling_matrix(double sx, double sy, double sz);
