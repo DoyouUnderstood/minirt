@@ -1,0 +1,32 @@
+Expansions des cofacteurs ===> result voulu
+
+
+Determinant ==> Le déterminant est un nombre dérivé des éléments d’une matrice. 
+Le nom vient de l’utilisation de matrices pour résoudre des systèmes d’équations, 
+où il est utilisé pour déterminer si le système a ou non une solution.
+Si le déterminant est nul, alors le système d’équations correspondant n’a pas de solution.
+Pour une matrice 2x2, le Determinant est egale a ad - bc.
+la matrice 2x2 A suivante :
+
+​ 	    | 1 | 5 |
+​ 	    | -3 | 2 |
+
+​Alors  ​ déterminant(A) = 17
+
+
+
+Les sous matrices ==> les sous matrices sont des matrices avec une ligne et une cologne en moins.
+Étant donné  ​ la matrice 3x3 A suivante :
+
+​ 	    | 1 | 5 | 0 |
+​ 	    | -3 | 2 | 7 |
+​ 	    | 0 | 6 | -3 |
+
+​ Alors la sous-matrice (A, 0, 2) est la matrice 2x2 suivante :
+
+​ 	    | -3 | 2 |
+​ 	    | 0 | 6 |
+
+Les mineurs ==> Le mineur d'un élément de la ligne i et de la colonne j,
+est le déterminant de la sous-matrice en (i,j).
+En autre, le mineur est déterminant de la sous-matrice
