@@ -6,7 +6,7 @@
 /*   By: alletond <alletond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:42:19 by alletond          #+#    #+#             */
-/*   Updated: 2024/02/15 17:24:19 by alletond         ###   ########.fr       */
+/*   Updated: 2024/03/04 14:46:07 by alletond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@
 #include <string.h>
 #include <unistd.h>
 #include "../lib/mlx/mlx.h"
-#include "../include/mlxinit.h"
-
+#include "mlxinit.h"
+#include "object.h"
+#include "parse.h"
 
 typedef struct s_ray {
     t_tuple origin;

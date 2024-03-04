@@ -3,22 +3,22 @@ NAME = miniRT
 LIBFT_DIR = lib/libft
 FT_PRINTF_DIR = lib/ft_printf
 GNL_DIR = lib/GNL
-MLX_DIR = lib/mlx_linux
+MLX_DIR = lib/mlx2
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 # / pour compiler sous Mac, rajouter ceci a mlx_flags ==> -framework OpenGL -framework AppKit
 
-MLX_FLAGS = -L$(MLX_DIR) -lmlx 
+MLX_FLAGS = -L$(MLX_DIR) -framework OpenGL -framework AppKit -lmlx
 
-INC_FLAGS = -I$(LIBFT_DIR) -I$(FT_PRINTF_DIR) -I$(GNL_DIR) -I$(MLX_DIR) -lXext -lX11 -lm -lbsd
+INC_FLAGS = -I$(LIBFT_DIR) -I$(FT_PRINTF_DIR) -I$(GNL_DIR) -I$(MLX_DIR) -lm
 
 SRCS = parser/minirt.c parser/print.c parser/parse_utils.c \
 		parser/parse.c parser/utils.c parser/free.c parser/object.c \
 		mlx/mlx.c mlx/event.c vecteur/vecteur.c vecteur/projectile.c \
 		matrice/matrice.c matrice/rotation.c matrice/submatrix.c \
-		ray/ray.c raytracing/vecteur_test.c
+		ray/ray.c raytracing/raytracing.c
 
 OBJ = $(SRCS:.c=.o)
 

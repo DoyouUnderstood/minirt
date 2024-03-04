@@ -1,6 +1,15 @@
 #include "../include/mlxinit.h"
 
 
+void put_pixel_to_img(t_mlx *mlx, int x, int y, int color) 
+{
+    if (!mlx || !mlx->addr)
+        return;
+    int pixel_index = (y * mlx->line_length) + (x * (mlx->bits_per_pixel / 8));
+    *(unsigned int*)(mlx->addr + pixel_index) = mlx_get_color_value(mlx->ptr, color);
+}
+
+
 t_mlx   *mlx_init_and_create_window(int width, int height, char *title)
 {
     t_mlx   *mlx;
@@ -20,6 +29,7 @@ t_mlx   *mlx_init_and_create_window(int width, int height, char *title)
         free(mlx);
         return (NULL);
     }
+    mlx->img = NULL;
     mlx->width = width;
     mlx->height = height;
     return (mlx);
@@ -51,7 +61,6 @@ void draw_square(t_mlx *mlx, int x, int y, int size, int color)
     int i;
     int j;
 
-    // Parcourir chaque pixel à l'intérieur des limites du carré
     for (i = 0; i < size; i++)
     {
         for (j = 0; j < size; j++)

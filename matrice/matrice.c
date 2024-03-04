@@ -165,6 +165,40 @@ t_tuple reflectPoint(t_tuple point, char axis) {
     return point;
 }
 
+Matrice4x4 scaling_matrix(double sx, double sy, double sz) {
+    Matrice4x4 matrix = initMatriceIdentite();
+    matrix.m[0][0] = sx;
+    matrix.m[1][1] = sy;
+    matrix.m[2][2] = sz;
+    return matrix;
+}
+
+Matrice4x4 rotation_z(double angle) {
+    Matrice4x4 matrix = initMatriceIdentite();
+    double cosTheta = cos(angle);
+    double sinTheta = sin(angle);
+
+    matrix.m[0][0] = cosTheta;
+    matrix.m[0][1] = -sinTheta;
+    matrix.m[1][0] = sinTheta;
+    matrix.m[1][1] = cosTheta;
+
+    return matrix;
+}
+
+Matrice4x4 shearing_matrix(double xy, double xz, double yx, double yz, double zx, double zy) {
+    Matrice4x4 matrix = initMatriceIdentite();
+
+    matrix.m[0][1] = xy;
+    matrix.m[0][2] = xz;
+    matrix.m[1][0] = yx;
+    matrix.m[1][2] = yz;
+    matrix.m[2][0] = zx;
+    matrix.m[2][1] = zy;
+
+    return matrix;
+}
+
 // Fonction pour créer une matrice de translation
 Matrice4x4 translation_matrix(double dx, double dy, double dz) {
     Matrice4x4 mat = {{{1, 0, 0, dx},

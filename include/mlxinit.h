@@ -20,7 +20,8 @@ typedef struct s_mlx
     int     height;         // Hauteur de l'image
 }               t_mlx;
 
-
+int handle_key(int keycode, void *param);
+void put_pixel_to_img(t_mlx *mlx, int x, int y, int color);
 int handle_keypress(int keysym, t_mlx *mlx);
 int close_window(t_mlx *mlx);
 void mlx_cleanup(t_mlx *mlx);
