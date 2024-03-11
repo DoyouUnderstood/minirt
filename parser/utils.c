@@ -26,7 +26,7 @@ bool parse_rgb(char **str, int *value)
     return (true);
 }
 
-void rgb(char *str, t_rgb *color)
+void rgb(char *str, t_color *color)
 {
     int r;
     int g;

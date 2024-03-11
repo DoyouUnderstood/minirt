@@ -11,6 +11,7 @@ typedef struct s_tuple
     double w;
 } t_tuple;
 
+t_tuple vect_scale(t_tuple v, double scalar);
 double dot(t_tuple a, t_tuple b);
 t_tuple point(double x, double y, double z);
 t_tuple vector(double x, double y, double z);

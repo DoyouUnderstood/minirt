@@ -1,15 +1,26 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-// #include "parse.h"
+#include "parse.h"
 #include "matrix.h"
+#include "raytracing.h"
 
-typedef struct s_rgb
+typedef struct s_color
 {
-	int				r;
-	int				g;
-	int				b;
-}					t_rgb;
+	double r;
+	double g;
+	double b;
+}					t_color;
+
+typedef struct s_material
+{
+    t_color color;     
+    double ambient;
+    double diffuse;  
+    double specular; 
+    double shininess;
+} t_material;
+
 
 typedef enum e_obj_type
 {
@@ -35,14 +46,16 @@ typedef struct s_plane
 {
 	t_tuple			center;
 	t_tuple			orientation;
-	t_rgb			color;
+	t_color			color;
 }					t_plane;
 
-typedef struct s_sphere {
+typedef struct s_sphere 
+{
     t_tuple center;
     double diameter;
-    t_rgb color;
+    t_color color;
     Matrice4x4 transform; // Ajout d'un champ pour la transformation
+	t_material material;
 } t_sphere;
 
 
@@ -52,7 +65,7 @@ typedef struct s_cyl
 	t_tuple			orientation;
 	double			diameter;
 	double			height;
-	t_rgb			color;
+	t_color			color;
 }					t_cyl;
 
 #endif 

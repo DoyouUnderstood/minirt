@@ -78,6 +78,19 @@ t_tuple negate_tuple(t_tuple a)
     return result;
 }
 
+t_tuple vect_scale(t_tuple v, double scalar)
+{
+    t_tuple result;
+
+    result.x = v.x * scalar;
+    result.y = v.y * scalar;
+    result.z = v.z * scalar;
+    result.w = v.w;
+
+    return result;
+}
+
+
 t_tuple multiply_tuple(t_tuple a, double scalar)
 {
     t_tuple result;
