@@ -6,7 +6,7 @@
 /*   By: alletond <alletond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:40:30 by alletond          #+#    #+#             */
-/*   Updated: 2024/03/04 14:49:12 by alletond         ###   ########.fr       */
+/*   Updated: 2024/03/13 19:33:41 by alletond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,24 @@
 #include "../include/light.h"
 #include "../include/dashboard.h"
 
-
-// // cet fonction retourne un pointeur vers l'object trouvé
-// void* find_first_object_of_type(t_obj_list *obj_list, t_obj_type type) {
-//     t_object *current = obj_list->head;
-//     while (current != NULL) {
-//         if (current->type == type) {
-//             return current->obj;
-//         }
-//         current = current->next;
-//     }
-//     return NULL;
-// }
-
-#include <stdint.h>
-
-bool intersect_ray_sphere(t_ray *ray, t_sphere *sphere, double *t) {
+bool intersect_ray_sphere(t_ray *ray, t_sphere *sphere, double *t) 
+{
     t_tuple sphere_to_ray = subtract_tuples(ray->origin, sphere->center);
     double a = dot(ray->direction, ray->direction);
     double b = 2 * dot(ray->direction, sphere_to_ray);
     double c = dot(sphere_to_ray, sphere_to_ray) - pow(sphere->diameter / 2, 2.0);
     double discriminant = b * b - 4 * a * c;
 
-    if (discriminant < 0) {
+    if (discriminant < 0)
         return false;
-    }
-
     double t0 = (-b - sqrt(discriminant)) / (2 * a);
     double t1 = (-b + sqrt(discriminant)) / (2 * a);
-
-    // Utilisez t_near pour trouver la plus petite valeur positive
     double t_near = fmin(t0, t1);
     if (t_near < 0) {
-        t_near = fmax(t0, t1); // Si t0 est négatif, essayez t1
+        t_near = fmax(t0, t1);
     }
     if (t_near < 0) {
-        return false; // Les deux t sont négatifs, donc pas d'intersection devant la caméra
+        return false;
     }
 
     *t = t_near;
@@ -67,19 +49,14 @@ t_ray transform_ray(Matrice4x4 mat, t_ray ray) {
 }
 
 uint32_t color_to_hex(t_color color) {
-    // Les valeurs RGB sont supposées être déjà sur l'échelle de 0 à 255
     int r = (int)color.r;
     int g = (int)color.g;
     int b = (int)color.b;
-
-    // Combinez les composantes RGB dans un entier 32 bits au format 0xRRGGBB
     return (r << 16) | (g << 8) | b;
 }
 
 
 void throw_ray(t_scene *scene) {
-    // Assumer que scene->objects contient une liste d'objets à itérer
-    // Pour simplifier, supposons qu'il y a une seule sphère dans la liste pour cet exemple
     t_sphere *sphere = (t_sphere*)scene->objects.head->obj; // Ajustez selon votre structure de données
     t_light light = scene->spot_light; // Utilisez la lumière spot de la scène
 
@@ -96,7 +73,7 @@ void throw_ray(t_scene *scene) {
             {
                 t_tuple point = position(ray, t); // 
                 t_tuple normal = calculate_normal_at_point(sphere, &ray, t); //Utilise le rayon et t pour calculer la normale
-                t_tuple eye = negate_tuple(ray.direction); // Vecteur œil
+                t_tuple eye = negate_tuple(ray.direction);
                 t_color color = lighting(sphere->material, light, point, eye, normal);
                 //printf("color = %f, %f, %f\n", color.r, color.g, color.b);
                 uint32_t color_int = color_to_hex(color);
@@ -108,6 +85,51 @@ void throw_ray(t_scene *scene) {
         }
     }
 }
+
+// void throw_ray(t_scene *scene) {
+//     t_light light = scene->spot_light; // Supposition pour l'accès à la lumière spot
+//     for (int y = 0; y < scene->mlx->height; ++y) {
+//         for (int x = 0; x < scene->mlx->width; ++x) {
+//             t_ray ray = {
+//                 .origin = point(0, 0, 0), // Initialisation du point d'origine du rayon
+//                 .direction = normalize_tuple(vector(x - scene->mlx->width / 2, y - scene->mlx->height / 2, -scene->camera.fov)) // Ajustement pour focal length
+//             };
+
+//             t_sphere *closest_sphere = NULL;
+//             double closest_t = INFINITY;
+//             for (t_object *node = scene->objects.head; node != NULL; node = node->next) {
+//                 t_sphere *sphere = (t_sphere*)node->obj;
+//                 t_intersections intersections = intersect_sphere(*sphere, ray);
+//                 for (int i = 0; i < intersections.count; i++) {
+//                     double t = intersections.intersections[i].t;
+//                     if (t > 0 && t < closest_t) {
+//                         closest_t = t;
+//                         closest_sphere = sphere;
+//                     }
+//                 }
+//                 if (intersections.intersections != NULL) {
+//                     free(intersections.intersections);
+//                 }
+//             }
+
+//             if (closest_sphere != NULL) {
+//                 t_tuple point = position(ray, closest_t);
+//                 t_tuple normal = calculate_normal_at_point(closest_sphere, &ray, closest_t);
+//                 t_tuple eye = negate_tuple(ray.direction);
+//                 t_color color = lighting(closest_sphere->material, light, point, eye, normal);
+//                 uint32_t color_int = color_to_hex(color);
+//                 put_pixel_to_img(scene->mlx, x, y, color_int);
+//             } else {
+//                 put_pixel_to_img(scene->mlx, x, y, 0x000033); // Couleur de fond si pas d'intersection
+//             }
+//         }
+//     }
+// }
+
+
+
+
+
 void redraw_scene(t_scene *scene) {
     if (scene == NULL || scene->mlx == NULL || scene->mlx->ptr == NULL) {
         write(1, "Invalid scene or MLX pointer.\n", 30);
@@ -216,20 +238,20 @@ t_mlx *init_main_scene(t_scene *scene)
 }
 
 
-int main(void) {
-    t_scene scene;
-    scene.dashboard.material = malloc(sizeof(t_material));
-    *(scene.dashboard.material) = material(); // Assurez-vous que material() retourne une structure correctement initialisée
-    if (!init_main_scene(&scene)) {
-        return (EXIT_FAILURE);
-    }
-    afficher_dashboard(&scene);
-    mlx_hook(scene.mlx->win, 17, 0L, close_window, &scene);
-    mlx_hook(scene.mlx->win, 2, 1L<<0, handle_key, &scene);
-    mlx_loop(scene.mlx->ptr);
-    free(scene.dashboard.material);
-    return (EXIT_SUCCESS);
-}
+// int main(void) {
+//     t_scene scene;
+//     scene.dashboard.material = malloc(sizeof(t_material));
+//     *(scene.dashboard.material) = material(); // Assurez-vous que material() retourne une structure correctement initialisée
+//     if (!init_main_scene(&scene)) {
+//         return (EXIT_FAILURE);
+//     }
+//     afficher_dashboard(&scene);
+//     mlx_hook(scene.mlx->win, 17, 0L, close_window, &scene);
+//     mlx_hook(scene.mlx->win, 2, 1L<<0, handle_key, &scene);
+//     mlx_loop(scene.mlx->ptr);
+//     free(scene.dashboard.material);
+//     return (EXIT_SUCCESS);
+// }
 
 
 

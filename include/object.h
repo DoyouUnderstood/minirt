@@ -3,7 +3,7 @@
 
 #include "parse.h"
 #include "matrix.h"
-#include "raytracing.h"
+// #include "raytracing.h"
 
 typedef struct s_color
 {

@@ -1,43 +1,65 @@
 
 #include "../include/dashboard.h"
 
-#define KEY_a 'a'
-#define KEY_s 's'
-#define KEY_d 'd'
-#define KEY_f 'f'
+#define KEY_A 'a'
+#define KEY_S 's'
+#define KEY_D 'd'
+#define KEY_F 'f'
+#define KEY_G 'g'
+#define KEY_H 'h'
+#define KEY_J 'j'
+#define KEY_K 'k'
 
-
-void afficher_dashboard(t_dashboard *dashboard, void *mlx_ptr, void *win_ptr) {
+void afficher_dashboard(t_scene *scene) {
     char info[128];
+    int yOffset = 20; // Début de l'affichage en Y
+    int yStep = 20; // Pas vertical entre les lignes
 
-    sprintf(info, "Ambient: %.2f", dashboard->material->ambient);
-    mlx_string_put(mlx_ptr, win_ptr, 10, 20, 0xFFFFFF, info);
+    sprintf(info, "Ambient: %.2f", scene->dashboard.material->ambient);
+    mlx_string_put(scene->mlx->ptr, scene->mlx->win, 10, yOffset, 0xFFFFFF, info);
 
-    sprintf(info, "Diffuse: %.2f", dashboard->material->diffuse);
-    mlx_string_put(mlx_ptr, win_ptr, 10, 40, 0xFFFFFF, info);
+    sprintf(info, "Diffuse: %.2f", scene->dashboard.material->diffuse);
+    mlx_string_put(scene->mlx->ptr, scene->mlx->win, 10, yOffset + yStep, 0xFFFFFF, info);
 
-    // Continuez pour les autres propriétés...
+    sprintf(info, "Specular: %.2f", scene->dashboard.material->specular);
+    mlx_string_put(scene->mlx->ptr, scene->mlx->win, 10, yOffset + 2 * yStep, 0xFFFFFF, info);
+
+    sprintf(info, "Shininess: %.2f", scene->dashboard.material->shininess);
+    mlx_string_put(scene->mlx->ptr, scene->mlx->win, 10, yOffset + 3 * yStep, 0xFFFFFF, info);
 }
 
 
-int gestion_entree(int keycode, t_dashboard *dashboard) 
-{
+int gestion_entree(int keycode, t_scene *scene) {
     switch (keycode) {
-        case KEY_a: // Exemple pour augmenter l'ambiance
-            dashboard->material->ambient = fmin(dashboard->material->ambient + 0.1, 1.0);
+        case KEY_A: // Augmenter l'ambiant
+            scene->dashboard.material->ambient = fmin(scene->dashboard.material->ambient + 0.1, 1.0);
             break;
-        case KEY_d: // Exemple pour diminuer l'ambiance
-            dashboard->material->ambient = fmax(dashboard->material->ambient - 0.1, 0.0);
+        case KEY_D: // Diminuer l'ambiant
+            scene->dashboard.material->ambient = fmax(scene->dashboard.material->ambient - 0.1, 0.0);
             break;
-        case KEY_s: // Exemple pour augmenter la diffusion
-            dashboard->material->diffuse = fmin(dashboard->material->diffuse + 0.1, 1.0);
+        case KEY_S: // Augmenter le diffus
+            scene->dashboard.material->diffuse = fmin(scene->dashboard.material->diffuse + 0.1, 1.0);
             break;
-        case KEY_f: // Exemple pour diminuer la diffusion
-            dashboard->material->diffuse = fmax(dashboard->material->diffuse - 0.1, 0.0);
+        case KEY_F: // Diminuer le diffus
+            scene->dashboard.material->diffuse = fmax(scene->dashboard.material->diffuse - 0.1, 0.0);
+            break;
+        case KEY_G: // Augmenter le spéculaire
+            scene->dashboard.material->specular = fmin(scene->dashboard.material->specular + 0.1, 1.0);
+            break;
+        case KEY_H: // Diminuer le spéculaire
+            scene->dashboard.material->specular = fmax(scene->dashboard.material->specular - 0.1, 0.0);
+            break;
+        case KEY_J: // Augmenter la brillance
+            scene->dashboard.material->shininess = fmin(scene->dashboard.material->shininess + 5, 100); // La plage peut varier selon vos besoins
+            break;
+        case KEY_K: // Diminuer la brillance
+            scene->dashboard.material->shininess = fmax(scene->dashboard.material->shininess - 5, 0); // La plage peut varier selon vos besoins
             break;
         default:
-                return 0;
-        }
-    mlx_clear_window(dashboard->mlx_ptr, dashboard->win_ptr);
-    afficher_dashboard(dashboard, dashboard->mlx_ptr, dashboard->win_ptr);    return 0;
+            return 0;
+    }
+
+    redraw_scene(scene);
+    return 0;
 }
+

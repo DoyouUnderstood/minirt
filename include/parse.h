@@ -11,11 +11,18 @@
 #include <string.h>
 #include <unistd.h>
 #include "../lib/mlx2/mlx.h"
+#include "../lib/mlx/mlx.h"
 #include <math.h>
 #include "vecteur.h"
 #include "object.h"
 #include "mlxinit.h"
 #include "dashboard.h"
+
+typedef struct s_dashboard {
+    t_material *material;
+    void *mlx_ptr;
+    void *win_ptr;
+} t_dashboard;
 
 typedef struct s_amb_light
 {
@@ -56,7 +63,7 @@ void				parse_sphere(char **str, t_sphere *sphere);
 void				parse_light(char **str, t_light *light);
 void				parse_ambient_lightning(char **str, t_amb_light *light);
 t_scene				parse(char **str);
-void parse_object(char **ptr, t_obj_list *objects);
+void 				parse_object(char **ptr, t_obj_list *objects);
 
 /* =========== Parseur utils ========== */
 

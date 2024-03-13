@@ -3,13 +3,14 @@ NAME = miniRT
 LIBFT_DIR = lib/libft
 FT_PRINTF_DIR = lib/ft_printf
 GNL_DIR = lib/GNL
-MLX_DIR = lib/mlx_linux
+MLX_DIR = lib/mlx
 
+# -framework OpenGL -framework AppKit
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
-MLX_FLAGS = -L$(MLX_DIR) -lmlx
-INC_FLAGS = -I$(LIBFT_DIR) -I$(FT_PRINTF_DIR) -I$(GNL_DIR) -I$(MLX_DIR) -lXext -lX11 -lm -lbsd
+MLX_FLAGS = -L$(MLX_DIR) -framework OpenGL -framework AppKit -lmlx
+INC_FLAGS = -I$(LIBFT_DIR) -I$(FT_PRINTF_DIR) -I$(GNL_DIR) -I$(MLX_DIR) -lm 
 CRITERION_FLAGS = -lcriterion
 
 # Séparez les fichiers de test des fichiers sources principaux si possible
@@ -21,7 +22,7 @@ SRCS = parser/minirt.c parser/print.c parser/parse_utils.c \
        mlx/mlx.c mlx/event.c vecteur/vecteur.c vecteur/projectile.c \
        matrice/matrice.c matrice/rotation.c matrice/submatrix.c \
        ray/ray.c raytracing/raytracing.c raytracing/ombre.c raytracing/color.c \
-	   test_criterion/test_light.c dashboard/dashboard.c 
+	   test_criterion/test_light.c dashboard/dashboard.c ray/intersect_sphere.c monde/monde.c
 
 OBJ = $(SRCS:.c=.o)
 TEST_OBJ = $(TEST_SRCS:.c=.o)

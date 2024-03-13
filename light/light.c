@@ -19,9 +19,9 @@ t_light *point_light(t_tuple position, t_color intensity, double brightness)
 t_material material() {
     t_material m;
 
-    m.color.r = 25.0;
-    m.color.g = 25.0;
-    m.color.b = 25.0;
+    m.color.r = 255.0;
+    m.color.g = 50.0;
+    m.color.b = 255.0;
     m.ambient = 0.1;
     m.diffuse = 0.9;
     m.specular = 0.9;
@@ -31,7 +31,7 @@ t_material material() {
 }
 
 // Fonction pour créer une sphère avec un matériau par défaut
-t_sphere sphere() {
+t_sphere create_sphere() {
     t_sphere s;
     
     s.center = (t_tuple){0.0, 0.0, 0.0, 0};

@@ -6,7 +6,7 @@
 /*   By: alletond <alletond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:42:19 by alletond          #+#    #+#             */
-/*   Updated: 2024/03/04 14:46:07 by alletond         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:55:29 by alletond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,21 @@
 #include "mlxinit.h"
 #include "parse.h"
 #include "object.h"
+
+typedef struct s_color t_color;
+typedef struct s_light t_light;
+typedef struct s_scene t_scene;
+typedef struct s_sphere t_sphere;
+
+
+// typedef struct s_material
+// {
+//     t_color color;     
+//     double ambient;
+//     double diffuse;  
+//     double specular; 
+//     double shininess;
+// } t_material;
 
 
 typedef struct s_ray {
